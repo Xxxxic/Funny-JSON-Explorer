@@ -8,7 +8,7 @@ from jsonExplorer import FunnyJsonExplorer
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Funny JSON Explorer")
+    parser = argparse.ArgumentParser(description="JSON Explorer")
     parser.add_argument('-f', '--file', type=str, required=True)
     parser.add_argument('-s', '--style', type=str, required=False, default='tree')
     parser.add_argument('-i', '--icon', type=str, required=False, default='poker')
@@ -16,10 +16,10 @@ def main():
     args = parser.parse_args()
 
     try:
-        fje = FunnyJsonExplorer(args.style, args.icon, args.config)
-        fje._load(args.file)
-        fje.build()
-        fje.show()
+        explorer = FunnyJsonExplorer(args.style, args.icon, args.config)
+        explorer.load_json(args.file)
+        explorer.build_tree()
+        explorer.display_tree()
 
     except FileNotFoundError:
         print(f"Error: The file {args.file} was not found.")

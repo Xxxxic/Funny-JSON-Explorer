@@ -10,7 +10,7 @@ class FunnyJsonExplorer:
     def __init__(self, style: str, icon: str, config: str = None):
         self.json_data = None
         self.style = get_style_factory(style).create_style()
-        self.icon = get_icon_factory(icon).create_icon()
+        self.icon = get_icon_factory().create_icon()
         self.icon.set_icons(config_path=config, icon_name=icon)
         self.max_width = 0
         self.root = None
@@ -66,5 +66,5 @@ def get_style_factory(style: str):
         raise ValueError(f"Unknown style: {style}")
 
 
-def get_icon_factory(icon: str):
+def get_icon_factory():
     return IconFactory()
