@@ -109,7 +109,64 @@ def get_max_length(data, indent=0):
                 max_len = max(max_len, indent + len(f"[{i}]: {value}") + 2)
     return max_len
 
-def print_rectangle_style(data, indent='', max_len=0):
+
+# def print_rectangle_style(data, indent='', max_len=0):
+#     """Print JSON in rectangle style."""
+#
+#     def print_border(content, is_last=False, is_top=False, is_bottom=False, is_leaf=False):
+#         if is_top:
+#             border = f"{indent}┌─ {content} "
+#             filler = '─' * (max_len - len(border))
+#             print(f"{border}{filler}┐")
+#         elif is_bottom:
+#             border = f"{indent}└─ {content} "
+#             filler = '─' * (max_len - len(border))
+#             print(f"{border}{filler}┘")
+#         elif is_leaf:
+#             border = f"{indent}├─ {content} "
+#             filler = '─' * (max_len - len(border))
+#             print(f"{border}{filler}┤")
+#         elif is_last:
+#             border = f"{indent}└─ {content} "
+#             filler = '─' * (max_len - len(border))
+#             print(f"{border}{filler}┤")
+#         else:
+#             border = f"{indent}│  {content} "
+#             filler = ' ' * (max_len - len(border))
+#             print(f"{border}{filler}│")
+#
+#     # 单个节点
+#     if isinstance(data, dict):
+#         size = len(data)
+#         for i, (key, value) in enumerate(data.items()):
+#             is_last_item = i == (size - 1)
+#             is_leaf = not isinstance(value, (dict, list))
+#             if i == 0:
+#                 print_border(key, is_last_item, is_top=True)
+#             else:
+#                 print_border(key, is_last_item, is_leaf=is_leaf)
+#             if isinstance(value, (dict, list)):
+#                 print_rectangle_style(value, indent + "│  ", max_len)
+#             elif value is not None:
+#                 print_border(f"{key}: {value}", is_last_item)
+#         if size == 0:
+#             print_border('', is_last=True, is_bottom=True)
+#     # 列表节点
+#     elif isinstance(data, list):
+#         size = len(data)
+#         for i, value in enumerate(data):
+#             is_last_item = i == (size - 1)
+#             is_leaf = not isinstance(value, (dict, list))
+#             print_border(f"[{i}]", is_last_item, is_leaf=is_leaf)
+#             if isinstance(value, (dict, list)):
+#                 print_rectangle_style(value, indent + "│  ", max_len)
+#             elif value is not None:
+#                 print_border(f"[{i}]: {value}", is_last_item)
+#         if size == 0:
+#             print_border('', is_last=True, is_bottom=True)
+
+
+def print_rectangle_style(data, indent='', max_len=0, is_last=False):
     """Print JSON in rectangle style."""
 
     def print_border(content, is_last=False, is_top=False, is_bottom=False, is_leaf=False):
@@ -140,13 +197,13 @@ def print_rectangle_style(data, indent='', max_len=0):
             is_last_item = i == (size - 1)
             is_leaf = not isinstance(value, (dict, list))
             if i == 0:
-                print_border(key, is_last_item, is_top=True)
+                print_border(key, is_top=True)
             else:
-                print_border(key, is_last_item, is_leaf=is_leaf)
+                print_border(key, is_leaf=is_leaf)
             if isinstance(value, (dict, list)):
-                print_rectangle_style(value, indent + "│  ", max_len)
+                print_rectangle_style(value, indent + "│  ", max_len, is_last=is_last_item and is_last)
             elif value is not None:
-                print_border(f"{key}: {value}", is_last_item)
+                print_border(f"{key}: {value}")
         if size == 0:
             print_border('', is_last=True, is_bottom=True)
     elif isinstance(data, list):
@@ -154,22 +211,16 @@ def print_rectangle_style(data, indent='', max_len=0):
         for i, value in enumerate(data):
             is_last_item = i == (size - 1)
             is_leaf = not isinstance(value, (dict, list))
-            print_border(f"[{i}]", is_last_item, is_leaf=is_leaf)
+            print_border(f"[{i}]", is_leaf=is_leaf)
             if isinstance(value, (dict, list)):
-                print_rectangle_style(value, indent + "│  ", max_len)
+                print_rectangle_style(value, indent + "│  ", max_len, is_last=is_last_item and is_last)
             elif value is not None:
-                print_border(f"[{i}]: {value}", is_last_item)
+                print_border(f"[{i}]: {value}")
         if size == 0:
             print_border('', is_last=True, is_bottom=True)
 
 
 if __name__ == "__main__":
-    # if len(sys.argv) != 2:
-    #     print("Usage: python json_tree.py <json_string>")
-    #     sys.exit(1)
-
-    # json_string = sys.argv[1]
-
     json_string = "./test.json"
 
     try:
@@ -178,6 +229,9 @@ if __name__ == "__main__":
         print(f"Invalid JSON: {e}")
         sys.exit(1)
 
+    print(json_data)
+
     # print_json_tree(json_data)
-    max_len = get_max_length(json_data,5)
+    max_len = get_max_length(json_data, 5)
+    # print(max_len)
     print_rectangle_style(json_data, max_len=max_len)
