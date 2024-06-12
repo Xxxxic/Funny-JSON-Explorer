@@ -1,20 +1,73 @@
 import json
-from json_builder import JSONBuilder
+
+from factories.icon_factory import PokerIconFactory, ChessIconFactory, OtherIconFactory
+from factories.style_factory import TreeStyleFactory, RectangleStyleFactory
+from components.container import Container
+from components.leaf import Leaf
+
 
 class FunnyJsonExplorer:
-    def __init__(self, factory):
-        self.factory = factory
+    def __init__(self, style: str, icon: str, config: str = None):
+        self.json_data = None
+        self.style = self.get_style_factory(style).create_style()
+        self.icon = self.get_icon_factory(icon).create_icon()
+        self.icon.set_icons(config_path=config, icon_name=icon)
+        self.max_width = 0
+        self.root = None
+        self.print_list = []
 
-    # 将json数据转换为指定风格输出
-    def show(self, json_data):
-        builder = JSONBuilder(self.factory)
-        root = builder.build(json_data)
-        style = self.factory.create_style()
-        print_list = root.draw(style, "", 80, True)
-        beautified_list = style.beautification(print_list)
-        for line in beautified_list:
+    def _load(self, file_name):
+        with open(file_name, 'r') as json_file:
+            self.json_data = json.load(json_file)
+
+    def get_max_width(self, data, level=0):
+        if isinstance(data, dict):
+            max_width = max([len(key) + self.get_max_width(value, level + 1) for key, value in data.items()], default=0)
+            return max_width + 4
+        elif isinstance(data, list):
+            max_width = max([self.get_max_width(item, level + 1) for item in data], default=0)
+            return max_width + 4
+        elif isinstance(data, str):
+            return len(data) + 4
+        return 0
+
+    def parse_json(self, data):
+        if isinstance(data, dict):
+            container = Container(self.icon, '', '')
+            for key, value in data.items():
+                child = self.parse_json(value)
+                child.key = key
+                container.add(child)
+            return container
+        else:
+            return Leaf(self.icon, "", str(data))
+
+    def build(self):
+        self.max_width = self.get_max_width(self.json_data)
+        self.root = self.parse_json(self.json_data)
+        print_list = []
+        for index, child in enumerate(self.root.children):
+            is_last = index == len(self.root.children) - 1
+            print_line = child.draw(self.style, "", self.max_width, is_last)
+            print_list += print_line
+        self.print_list = self.style.beautification(print_list)
+
+    def show(self):
+        for line in self.print_list:
             print(line)
 
-    # 从json字符串中加载数据
-    def _load(self, json_str):
-        return json.loads(json_str)
+    def get_style_factory(self, style: str):
+        if style == "tree":
+            return TreeStyleFactory()
+        elif style == "rectangle":
+            return RectangleStyleFactory()
+        else:
+            raise ValueError(f"Unknown style: {style}")
+
+    def get_icon_factory(self, icon: str):
+        if icon == "poker":
+            return PokerIconFactory()
+        elif icon == "chess":
+            return ChessIconFactory()
+        else:
+            return OtherIconFactory()

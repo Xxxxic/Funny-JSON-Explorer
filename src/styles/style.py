@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from typing import Union
 
 class Style(ABC):
     @abstractmethod
