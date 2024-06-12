@@ -10,5 +10,9 @@
   "heart": {
     "container_icon": "❤️",
     "leaf_icon": "💙"
+  },
+  "star": {
+    "container_icon": "☀️",
+    "leaf_icon": "🌟"
   }
 }

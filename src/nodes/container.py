@@ -8,8 +8,8 @@ class Container(Node):
         self.icon = icon.container_icon
         self.children = []
 
-    def add_child(self, component: Node) -> None:
-        self.children.append(component)
+    def add_child(self, node: Node) -> None:
+        self.children.append(node)
 
     def render(self, style, prefix, max_width, is_last) -> list:
         rendered_lines = []

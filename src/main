@@ -17,9 +17,9 @@ def main():
 
     try:
         explorer = FunnyJsonExplorer(args.style, args.icon, args.config)
-        explorer.load_json(args.file)
-        explorer.build_tree()
-        explorer.display_tree()
+        explorer._load(args.file)
+        explorer.build()
+        explorer.show()
 
     except FileNotFoundError:
         print(f"Error: The file {args.file} was not found.")
