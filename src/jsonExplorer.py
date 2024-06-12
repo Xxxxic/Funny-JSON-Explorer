@@ -1,6 +1,6 @@
 import json
 
-from icons.iconFactory.iconFactory import PokerIconFactory, ChessIconFactory, OtherIconFactory
+from icons.iconFactory.iconFactory import IconFactory
 from styles.factory.styleFactory import TreeStyleFactory, RectangleStyleFactory
 from nodes.container import Container
 from nodes.leaf import Leaf
@@ -67,9 +67,4 @@ def get_style_factory(style: str):
 
 
 def get_icon_factory(icon: str):
-    if icon == "poker":
-        return PokerIconFactory()
-    elif icon == "chess":
-        return ChessIconFactory()
-    else:
-        return OtherIconFactory()
+    return IconFactory()

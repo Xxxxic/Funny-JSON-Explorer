@@ -1,0 +1,14 @@
+{
+  "poker": {
+    "container_icon": "♢",
+    "leaf_icon": "♧"
+  },
+  "color": {
+    "container_icon": "🟥",
+    "leaf_icon": "🟦"
+  },
+  "heart": {
+    "container_icon": "❤️",
+    "leaf_icon": "💙"
+  }
+}
