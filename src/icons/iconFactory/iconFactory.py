@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from icons.icon import PokerIcon
-from icons.icon import ChessIcon
-from icons.icon import OtherIcon
+from ..icon import PokerIcon
+from ..icon import ChessIcon
+from ..icon import OtherIcon
 
 
 class IconFactory(ABC):

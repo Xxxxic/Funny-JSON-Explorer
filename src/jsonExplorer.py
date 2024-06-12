@@ -1,16 +1,16 @@
 import json
 
-from factories.icon_factory import PokerIconFactory, ChessIconFactory, OtherIconFactory
-from factories.style_factory import TreeStyleFactory, RectangleStyleFactory
-from components.container import Container
-from components.leaf import Leaf
+from icons.iconFactory.iconFactory import PokerIconFactory, ChessIconFactory, OtherIconFactory
+from styles.factory.styleFactory import TreeStyleFactory, RectangleStyleFactory
+from nodes.container import Container
+from nodes.leaf import Leaf
 
 
 class FunnyJsonExplorer:
     def __init__(self, style: str, icon: str, config: str = None):
         self.json_data = None
-        self.style = self.get_style_factory(style).create_style()
-        self.icon = self.get_icon_factory(icon).create_icon()
+        self.style = get_style_factory(style).create_style()
+        self.icon = get_icon_factory(icon).create_icon()
         self.icon.set_icons(config_path=config, icon_name=icon)
         self.max_width = 0
         self.root = None
@@ -37,7 +37,7 @@ class FunnyJsonExplorer:
             for key, value in data.items():
                 child = self.parse_json(value)
                 child.key = key
-                container.add(child)
+                container.add_child(child)
             return container
         else:
             return Leaf(self.icon, "", str(data))
@@ -48,26 +48,28 @@ class FunnyJsonExplorer:
         print_list = []
         for index, child in enumerate(self.root.children):
             is_last = index == len(self.root.children) - 1
-            print_line = child.draw(self.style, "", self.max_width, is_last)
+            print_line = child.render(self.style, "", self.max_width, is_last)
             print_list += print_line
-        self.print_list = self.style.beautification(print_list)
+        self.print_list = self.style.render(print_list)
 
     def show(self):
         for line in self.print_list:
             print(line)
 
-    def get_style_factory(self, style: str):
-        if style == "tree":
-            return TreeStyleFactory()
-        elif style == "rectangle":
-            return RectangleStyleFactory()
-        else:
-            raise ValueError(f"Unknown style: {style}")
 
-    def get_icon_factory(self, icon: str):
-        if icon == "poker":
-            return PokerIconFactory()
-        elif icon == "chess":
-            return ChessIconFactory()
-        else:
-            return OtherIconFactory()
+def get_style_factory(style: str):
+    if style == "tree":
+        return TreeStyleFactory()
+    elif style == "rectangle":
+        return RectangleStyleFactory()
+    else:
+        raise ValueError(f"Unknown style: {style}")
+
+
+def get_icon_factory(icon: str):
+    if icon == "poker":
+        return PokerIconFactory()
+    elif icon == "chess":
+        return ChessIconFactory()
+    else:
+        return OtherIconFactory()
