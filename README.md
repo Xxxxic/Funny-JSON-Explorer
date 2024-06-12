@@ -4,7 +4,7 @@
 
 运行：fje -f <json file> -s <style> -i <icon family>
 
-```json
+```
 {
     oranges: {
         'mandarin': {                            ├─ oranges
@@ -21,7 +21,7 @@
 
 FJE可以快速切换风格（style），包括：树形（tree）、矩形（rectangle）；
 
-```json
+```
 ├─ oranges                             ┌─ oranges ───────────────────────────────┐
 │  └─ mandarin                         │  ├─ mandarin ───────────────────────────┤
 │     ├─ clementine                    │  │  ├─ clementine ──────────────────────┤
@@ -34,7 +34,7 @@ FJE可以快速切换风格（style），包括：树形（tree）、矩形（re
 
 也可以指定图标族（icon family），为中间节点或叶节点指定一套icon
 
-```json
+```
 ├─♢oranges                             
 │  └─♢mandarin                         
 │     ├─♤clementine                    
@@ -53,13 +53,11 @@ poker-face-icon-family: 中间节点icon：♢ 叶节点icon：♤
 
 比如：`src/main -f datasets/test.json -s rectangle -i color`
 
-![image-20240613000117634](https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001911.png)
+效果截图：
 
-![image-20240613000136365](https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001411.png)
+<center class="half">    <img src="https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001911.png" width="430"/><img src="https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001411.png" width="410"/></center>
 
-![image-20240613000145206](https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001238.png)
-
-![image-20240613000152157](https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001199.png)
+<center class="half">    <img src="https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001238.png" width="420"/><img src="https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130001199.png" width="420"/></center>
 
 #### 扩展
 
@@ -68,7 +66,7 @@ poker-face-icon-family: 中间节点icon：♢ 叶节点icon：♤
 
 #### 类图
 
-![image-20240613000419892](https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130004958.png)
+<img src="https://cdn.jsdelivr.net/gh/Xxxxic/ImageStorage@main/img/202406130004958.png" width="800"/>
 
 #### 设计模式及作用
 
