@@ -1,5 +1,6 @@
 from .node import Node
 from icons.icon import Icon
+from .iterator import Iterator
 
 
 class Container(Node):
@@ -20,3 +21,26 @@ class Container(Node):
             rendered_line = child.render(style, next_prefix, max_width, is_last_child)
             rendered_lines += rendered_line
         return rendered_lines
+
+    def create_iterator(self):
+        return ContainerIterator(self)
+
+    def accept(self, visitor):
+        visitor.visit_container(self)
+
+
+class ContainerIterator(Iterator):
+    def __init__(self, container):
+        self._container = container
+        self._index = 0
+
+    def has_next(self) -> bool:
+        return self._index < len(self._container.children)
+
+    def next(self):
+        if self.has_next():
+            item = self._container.children[self._index]
+            self._index += 1
+            return item
+        else:
+            raise StopIteration

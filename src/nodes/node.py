@@ -12,3 +12,11 @@ class Node(ABC):
     @abstractmethod
     def render(self, style: Style, prefix: str, max_width: int, is_last: bool) -> list:
         pass
+
+    @abstractmethod
+    def create_iterator(self):
+        pass
+
+    @abstractmethod
+    def accept(self, visitor):
+        pass
